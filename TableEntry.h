@@ -20,11 +20,11 @@ class TableEntry {
 		}
 		TableEntry(std::string key){
 			this->key = key;
-			this->value = NULL;
+			this->value = V();
 		}
 		TableEntry(){
 			this->key = "";
-			this->value = NULL;
+			this->value = V();
 		}
 		friend bool operator==(const TableEntry<V> &te1, const TableEntry<V> &te2) {
 			return te1.key == te2.key;
