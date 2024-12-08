@@ -2,6 +2,7 @@
 #define BSTREEDICT_H
 
 #include <ostream>
+#include <string>
 #include <stdexcept>
 #include "Dict.h"
 #include "BSTree.h"
@@ -25,7 +26,9 @@ class BSTreeDict : public Dict<V> {
 			return out;
 		}
 		V operator[](std::string key) const {
-			return search(key);
+			TableEntry<V> entry(key, V());
+			TableEntry<V> result = tree->search(entry);
+			return result.value;
 		}
 		int entries() override{
 			return tree->size();
@@ -36,15 +39,15 @@ class BSTreeDict : public Dict<V> {
 		}
 		V search(std::string key) override{
 			TableEntry<V> entry(key, V());
-			TableEntry<V> *result = tree->search(entry);
-			if(result == nullptr){
-				throw std::invalid_argument("Key not found");
-			}
-			return result->getValue();
+			TableEntry<V> result = tree->search(entry);
+			return result.value;
 		}
-		void remove(std::string key) override{
+		V remove(std::string key) override{
 			TableEntry<V> entry(key, V());
+			TableEntry<V> result = tree->search(entry);
+			V value = result.value;
 			tree->remove(entry);
+			return value;
 		}
 };
 
